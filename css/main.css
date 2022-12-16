@@ -33,7 +33,7 @@ html {
 }
 * {
     box-sizing: border-box;
-    font-family: kenia monospace;
+    font-family: kenia ,monospace;
 }
 
 .main-layout {
