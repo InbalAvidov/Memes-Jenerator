@@ -54,6 +54,11 @@ function getMeme() {
     return gMeme
 }
 
+function changeFont(font){
+    if (font === 'font') font = 'titen'
+    gMeme.lines[gMeme.selectedLineIdx].font = font
+}
+
 function changeFontColor(color) {
     gMeme.lines[gMeme.selectedLineIdx].color = color
 }
@@ -97,6 +102,7 @@ function resetLines(x, y) {
             size: 30,
             align: 'center',
             color: 'white',
+            font: 'impact'
         },
     ]
     gMeme.selectedLineIdx = 0

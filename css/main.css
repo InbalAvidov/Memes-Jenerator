@@ -24,7 +24,15 @@ html {
     src: url(/fonts/Kenia-Regular.ttf);
 }
 @font-face {
-    font-family: "impact";
+    font-family: titen;
+    src: url(/fonts/TitanOne-Regular.ttf);
+}
+@font-face {
+    font-family: lucky;
+    src: url(/fonts/LuckiestGuy-Regular.ttf);
+}
+@font-face {
+    font-family: impact ;
     src: url(/fonts/impact.ttf);
   }
 
@@ -143,21 +151,21 @@ img:hover{
 }
 
 .edit-title {
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     text-align: center;
     color:var(--clrpink);
     margin-bottom: 0;
 }
 
 .buttons-title {
-    font-size: 0.8rem;
+    font-size: 1rem;
     color: var(--clrpink);
     margin-bottom: 0;
 }
 
 .add-text {
     color:var(--clrpink);
-    font-size: 0.6rem;
+    font-size: 1rem;
     font-weight: 600;
 }
 
@@ -175,6 +183,10 @@ img:hover{
     font-weight: 600;
     min-width: 40px;
     font-size: 1.2rem;
+}
+
+.font-options{
+   font-size: 1rem;
 }
 
 .btn:hover{

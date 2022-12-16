@@ -50,7 +50,7 @@ function drawText(line, currIdx, selectedIdx) {
     gCtx.lineWidth = 2
     gCtx.strokeStyle = 'black'
     gCtx.fillStyle = line.color
-    gCtx.font = `${line.size}px impact`
+    gCtx.font = `${line.size}px ${line.font}`
     gCtx.textAlign = `${line.align}`
     gCtx.textBaseline = 'middle'
     gCtx.fillText(txt, x, y)
@@ -60,6 +60,11 @@ function drawText(line, currIdx, selectedIdx) {
         gCtx.strokeStyle = 'black'
         gCtx.strokeRect(x - (txtLength / 2), y - (line.size / 2), txtLength, line.size)
     }
+}
+
+function onChangeFont(font){
+    changeFont(font)
+    _renderCanvas()
 }
 
 function onChangeFontColor(color) {
