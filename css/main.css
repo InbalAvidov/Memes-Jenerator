@@ -15,10 +15,6 @@ html {
     --clrblue :#3cbbd4;
     --clrpink :#EA047E;
 }
-* {
-    box-sizing: border-box;
-    font-family: kenia;
-}
 @font-face {
     font-family: kenia;
     src: url(../fonts/Kenia-Regular.ttf);
@@ -34,7 +30,11 @@ html {
 @font-face {
     font-family: impact ;
     src: url(../fonts/impact.ttf);
-  }
+}
+* {
+    box-sizing: border-box;
+    font-family: kenia monospace;
+}
 
 .main-layout {
     display: grid;
