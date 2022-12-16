@@ -319,7 +319,7 @@ img:hover{
     }
     .main-layout {
         grid-template-columns: 2% 96% 2%;
-        grid-template-rows: 8% 8% 84%;
+        grid-template-rows:  10% 15% 75%;
     }
 
     .imgs-container {
@@ -374,7 +374,6 @@ img:hover{
 
     .main-layout {
         grid-template-columns: 5% 90% 5%;
-        grid-template-rows: 10% 10% 80%;
     }
 
     .search-words{
