@@ -1,6 +1,6 @@
 'use strict'
 var gImgs = []
-var numOfImg = 19
+var gNumOfImgs = 19
 var id = 1
 const STORAGE_KEY = 'memes'
 var gMeme = {
@@ -13,7 +13,7 @@ var gIdSave = 101
 
 createImg(id)
 function createImg(id) {
-    for (var i = 0; i < numOfImg; i++) {
+    for (var i = 0; i < gNumOfImgs; i++) {
         const img = {
             id: id,
             url: `meme-imgs/${id}.jpg`,
@@ -102,7 +102,7 @@ function resetLines(x, y) {
             size: 30,
             align: 'center',
             color: 'white',
-            font: 'impact'
+            font: 'titen'
         },
     ]
     gMeme.selectedLineIdx = 0
@@ -126,4 +126,22 @@ function save(canvas){
 
 function spliceMeme(memes){
     saveToStorage(STORAGE_KEY, memes)
+}
+
+function createRandomMeme(){
+    const imgId = getRandomInt(1,gNumOfImgs+1)
+    const numOfLines = getRandomInt(0,2)
+    gMeme.selectedImgId = imgId
+    for (var i=0; i<=numOfLines  ; i++){
+        const line = {
+            txt : getRandomText(),
+            size: 20,
+            align:'center',
+            color : getRandomColor(),
+            font : 'titen'
+
+        }
+    gMeme.lines[i] = line
+    }
+    return imgId
 }

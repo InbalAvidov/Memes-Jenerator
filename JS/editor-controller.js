@@ -3,6 +3,7 @@ let gElCanvas
 let gCtx
 let gDone = false
 var gEditSaveMeme = false
+var gRandomMeme = false
 
 
 
@@ -19,12 +20,20 @@ function onOpenMemeEditor(elImg) {
 
     document.querySelector(".font-color").value = "#ffffff"
     document.querySelector(".meme-text").value = ''
-    if (!elImg.classList.contains("meme-img")) resetLines()
+    if (!elImg.classList.contains("meme-img") && !gRandomMeme) resetLines()
+    // else if(gRandomMeme) _renderCanvas()
     else{
         gDone = true
         _renderCanvas()
         gDone= false
     }
+}
+
+function onFlexMeme(){
+    gRandomMeme = true
+    const imgId = createRandomMeme()
+    const elImg = document.getElementById(`${imgId}`)
+    onOpenMemeEditor(elImg)
 }
 
 function onCreateLine(txt) {
@@ -36,7 +45,8 @@ function _renderCanvas() {
     gCtx.clearRect(0, 0, gElCanvas.width, gElCanvas.height)
     _drawImage()
     const memes = getMeme()
-    memes.lines.forEach((line, idx) => drawText(line, idx, memes.selectedLineIdx))
+    console.log(memes.lines);
+    memes.lines.forEach((line, idx) =>drawText(line, idx, memes.selectedLineIdx))
 }
 
 function drawText(line, currIdx, selectedIdx) {
