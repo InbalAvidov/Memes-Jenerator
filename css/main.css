@@ -21,19 +21,19 @@ html {
 }
 @font-face {
     font-family: kenia;
-    src: url(/fonts/Kenia-Regular.ttf);
+    src: url(../fonts/Kenia-Regular.ttf);
 }
 @font-face {
     font-family: titen;
-    src: url(/fonts/TitanOne-Regular.ttf);
+    src: url(../fonts/TitanOne-Regular.ttf);
 }
 @font-face {
     font-family: lucky;
-    src: url(/fonts/LuckiestGuy-Regular.ttf);
+    src: url(../fonts/LuckiestGuy-Regular.ttf);
 }
 @font-face {
     font-family: impact ;
-    src: url(/fonts/impact.ttf);
+    src: url(../fonts/impact.ttf);
   }
 
 .main-layout {
