@@ -27,13 +27,13 @@ html {
     font-family: lucky;
     src: url(../fonts/LuckiestGuy-Regular.ttf);
 }
-@font-face {
+/* @font-face {
     font-family: impact ;
     src: url(../fonts/impact.ttf);
-}
+} */
 * {
     box-sizing: border-box;
-    font-family: kenia ,monospace;
+    font-family: kenia ,impact;
 }
 
 .main-layout {

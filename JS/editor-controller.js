@@ -21,7 +21,6 @@ function onOpenMemeEditor(elImg) {
     document.querySelector(".font-color").value = "#ffffff"
     document.querySelector(".meme-text").value = ''
     if (!elImg.classList.contains("meme-img") && !gRandomMeme) resetLines()
-    // else if(gRandomMeme) _renderCanvas()
     else{
         gDone = true
         _renderCanvas()
@@ -34,6 +33,7 @@ function onFlexMeme(){
     const imgId = createRandomMeme()
     const elImg = document.getElementById(`${imgId}`)
     onOpenMemeEditor(elImg)
+    gRandomMeme = false
 }
 
 function onCreateLine(txt) {
@@ -60,7 +60,7 @@ function drawText(line, currIdx, selectedIdx) {
     gCtx.lineWidth = 2
     gCtx.strokeStyle = 'black'
     gCtx.fillStyle = line.color
-    gCtx.font = `${line.size}px ${line.font}`
+    gCtx.font = `${line.size}px '${line.font}'`
     gCtx.textAlign = `${line.align}`
     gCtx.textBaseline = 'middle'
     gCtx.fillText(txt, x, y)
