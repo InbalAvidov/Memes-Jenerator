@@ -23,9 +23,9 @@
     <section class="flex">
         <button class="btn flexiable" onclick="onFlexMeme()">I'm flexiable</button>
         <label class="search">Search
-            <input type="text" placeholder="search here" class="search-line">
+            <input type="text" placeholder="search here" class="search-line" oninput="onSearch(this.value)">
         </label>
-        <div class="search-words flex">Funny , Animal , Kids</div>
+        <!-- <div class="search-words flex">Funny , Animal , Kids</div> -->
     </section>
     
     <div class="imgs-container grid"></div>
@@ -35,16 +35,14 @@
         <button class="close-modal btn" onclick="onOpenMemeEditor(this,event)">X</button>
         <h1 class="edit-title">Meme Editor</h1>
         <div class="canvas-container">
-            <canvas class="my-canvas">
+            <canvas class="my-canvas" height="300" width="300">
             </canvas>
         </div>
         <div class="editor-features">
             <h2 class="buttons-title">Edit Your Meme</h2>
             <select class="font-options btn" onchange="onChangeFont(this.value)">
-                <option>Fonts</option>
-                <option>Titen</option>
-                <option>Lucky</option>
                 <option>impact</option>
+                <option>Titen</option>
             </select>
             <label class="add-text">Add text</label>
             <input type="text" class="meme-text" oninput="onCreateLine(this.value)" placeholder="type here">
@@ -61,20 +59,25 @@
             <button onclick="onChangeAlign(this)" class="btn" id="center">=</button>
             <button onclick="onChangeAlign(this)" class="btn" id="left"><= </button>
                     <br>
-                    <button class="btn" onclick="onDone()">Done✅</button>
+                    <button class="btn" onclick="onDone()">Done</button>
+                    <button class="btn" onclick="onSave()">Save</button>
                     <h2 class="stickers-title">Stickers</h2>
                     <section class="stickers-bar">
-                    </section>
+                        <button class="sticker-btn" onclick="onAddSticker(this.id)" id="1">😂</button>
+                        <button class="sticker-btn" onclick="onAddSticker(this.id)" id="2">🤔</button>
+                        <button class="sticker-btn" onclick="onAddSticker(this.id)" id="3">😫</button>
+                        <button class="sticker-btn" onclick="onAddSticker(this.id)" id="4">🤯</button>
+                        </section>
                     <a href="#" class="btn" onclick="onDownloadImg(this)" download="my-meme.jpg">Download</a>
         </div>
     </div>
     <div class="meme-saved"> Your meme is now saved at "Memes"</div>
     <script src="JS/editor-controller.js"></script>
+    <script src="JS/editor-service.js"></script>
     <script src="JS/gallery-controller.js"></script>
-    <script src="JS/servise.js"></script>
-    <script src="JS/storage-servise.js"></script>
+    <script src="JS/imgs-service.js"></script>
     <script src="JS/memes-controller.js"></script>
-    <script src="JS/memes-servise.js"></script>
+    <script src="JS/storage-service.js"></script>
     <script src="JS/utils.js"></script>
 </body>
 

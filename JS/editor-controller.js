@@ -4,10 +4,18 @@ let gCtx
 let gDone = false
 var gEditSaveMeme = false
 var gRandomMeme = false
+const TOUCH_EVS = ['touchstart', 'touchmove', 'touchend']
+var gStartPos
+var gNewPos
+var gIsDrug = false
+var gRowIdx
+
+
 
 
 
 function onOpenMemeEditor(elImg) {
+
     updateSelectedImgId(elImg.id)
     document.body.classList.toggle('editor-open')
 
@@ -15,20 +23,80 @@ function onOpenMemeEditor(elImg) {
 
     gElCanvas = document.querySelector(".my-canvas")
     gCtx = gElCanvas.getContext('2d')
+    addEventListeners()
     if (elImg.classList.contains("meme-img")) elImg.src = `meme-imgs/${elImg.id}.jpg`
     gCtx.drawImage(elImg, 0, 0, gElCanvas.width, gElCanvas.height)
 
     document.querySelector(".font-color").value = "#ffffff"
     document.querySelector(".meme-text").value = ''
     if (!elImg.classList.contains("meme-img") && !gRandomMeme) resetLines()
-    else{
+    else {
         gDone = true
         _renderCanvas()
-        gDone= false
+        gDone = false
     }
 }
 
-function onFlexMeme(){
+function addEventListeners() {
+    gElCanvas.addEventListener('mousedown', onCanvas)
+    gElCanvas.addEventListener('touchstart', onCanvas)
+
+    gElCanvas.addEventListener('mousemove', onDrug)
+    gElCanvas.addEventListener('touchmove', onDrug)
+
+    gElCanvas.addEventListener('mouseup', onUp)
+    gElCanvas.addEventListener('touchend', onUp)
+}
+
+function onCanvas(ev) {
+    const pos = getEvPos(ev)
+    gRowIdx = isLineClicked(pos)
+    console.log(gRowIdx);
+    if (gRowIdx === -1) return
+    if (gRowIdx >= 0) {
+        const line = setLine(gRowIdx)
+        setLineIsDrug(true)
+        document.querySelector(".meme-text").value = line.txt
+        gStartPos = pos
+        gIsDrug = true
+        _renderCanvas()
+    }
+
+}
+
+function getEvPos(ev) {
+    let pos = {
+        x: ev.offsetX,
+        y: ev.offsetY,
+    }
+    if (TOUCH_EVS.includes(ev.type)) {
+        ev.preventDefault()
+        ev = ev.changedTouches[0]
+        pos = {
+            x: ev.pageX - ev.target.offsetLeft - ev.target.clientLeft,
+            y: ev.pageY - ev.target.offsetTop - ev.target.clientTop,
+        }
+    }
+    return pos
+}
+
+function onDrug(ev) {
+    if (!gIsDrug) return
+    const pos = getEvPos(ev)
+    gStartPos = pos
+    _renderCanvas()
+}
+
+
+function onUp() {
+    if (!gIsDrug) return
+    setPosition(gStartPos)
+    setLineIsDrug(false)
+    _renderCanvas()
+    gIsDrug = false
+}
+
+function onFlexMeme() {
     gRandomMeme = true
     const imgId = createRandomMeme()
     const elImg = document.getElementById(`${imgId}`)
@@ -45,17 +113,24 @@ function _renderCanvas() {
     gCtx.clearRect(0, 0, gElCanvas.width, gElCanvas.height)
     _drawImage()
     const memes = getMeme()
-    console.log(memes.lines);
-    memes.lines.forEach((line, idx) =>drawText(line, idx, memes.selectedLineIdx))
+    memes.lines.forEach((line, idx) => drawText(line, idx, memes.selectedLineIdx))
 }
 
 function drawText(line, currIdx, selectedIdx) {
-    const x = gElCanvas.width / 2
-    var y
-    if (currIdx === 0) y = gElCanvas.height - (gElCanvas.height * 0.9)
-    else if (currIdx === 1) y = gElCanvas.height - (gElCanvas.height * 0.1)
-    else y = (gElCanvas.height - (gElCanvas.height * 0.9 - gElCanvas.height * 0.1 * (idx - 1)))
-
+    const txtLength = line.txt.split('').length * line.size / 2
+    if (gIsDrug && currIdx === gRowIdx) var { x, y } = gStartPos
+    else if (line.isDrug !== undefined) {
+        var x = line.pos.x + ((txtLength / 2) - 10)
+        var y = line.pos.y + (line.size / 2)
+    }
+    else {
+        var x = gElCanvas.width / 2
+        var y
+        var yDis = gElCanvas.height
+        if (currIdx === 0) y = yDis - (0.9 * yDis)
+        else if (currIdx === 1) y = yDis - (0.1 * yDis)
+        else y = yDis - ((yDis * 0.9) - (yDis * 0.1 * (currIdx - 1)))
+    }
     const txt = line.txt
     gCtx.lineWidth = 2
     gCtx.strokeStyle = 'black'
@@ -65,14 +140,21 @@ function drawText(line, currIdx, selectedIdx) {
     gCtx.textBaseline = 'middle'
     gCtx.fillText(txt, x, y)
     gCtx.strokeText(txt, x, y)
-    if (currIdx === selectedIdx && !gDone) {
-        const txtLength = line.txt.split('').length * line.size
+
+    if (currIdx === selectedIdx && !gDone && line.txt) {
         gCtx.strokeStyle = 'black'
-        gCtx.strokeRect(x - (txtLength / 2), y - (line.size / 2), txtLength, line.size)
+        const posX = x - (txtLength / 2) - 10
+        const posY = y - (line.size / 2)
+        gCtx.strokeRect(posX, posY, txtLength + 20, line.size)
+        line.pos.x = posX
+        line.pos.y = posY
+        line.pos.xLength = txtLength + posX
+        line.pos.yLength = (line.size * 2) + posY
     }
+    console.log(line);
 }
 
-function onChangeFont(font){
+function onChangeFont(font) {
     changeFont(font)
     _renderCanvas()
 }
@@ -118,16 +200,20 @@ function onChangeAlign(el) {
 function onDone() {
     gDone = true
     _renderCanvas()
+}
+
+function onSave() {
     save(gElCanvas)
-    if (gEditSaveMeme){
+    if (gEditSaveMeme) {
         renderMemes()
         gEditSaveMeme = false
     }
     document.body.classList.toggle('editor-open')
     document.querySelector(".meme-saved").style.display = "block"
-    setTimeout(()=>{
-        document.querySelector(".meme-saved").style.display = "none"}
-        ,3000)   
+    setTimeout(() => {
+        document.querySelector(".meme-saved").style.display = "none"
+    }
+        , 3000)
 }
 
 function onDeleteLine() {
@@ -146,6 +232,19 @@ function _drawImage() {
     gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height)
 }
 
-function changeGEditSaveMeme(){
+function changeGEditSaveMeme() {
     gEditSaveMeme = true
+}
+
+function onAddSticker(val) {
+    var sticker
+    if (+val === 1) sticker = '😂'
+    else if (+val === 2) sticker = '🤔'
+    else if (+val === 3) sticker = '😫'
+    else sticker = '🤯'
+    gCtx.font = '50px impact'
+    const loc = gElCanvas.width / 2
+    //    gCtx.strokeText(sticker, loc, loc)
+    newLine(sticker)
+    _renderCanvas()
 }
