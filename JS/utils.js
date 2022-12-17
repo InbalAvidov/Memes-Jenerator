@@ -6,7 +6,7 @@ function getRandomInt(min, max) {
 }
 
 function getRandomText() {
-    var sent = []
+    const sent = []
     const words = ['Lorem', 'ipsum', 'dolor', 'sit', 'amet', 'consec', 'adipis', 'elit', 'Ad', 'earum', 'ut', 'itaque', 'dolor', 'paria', 'harum']
     for (var i = 0; i < 4; i++) {
         const idx = getRandomInt(0, words.length)
@@ -17,7 +17,7 @@ function getRandomText() {
 }
 
 function getRandomColor() {
-    var letters = '0123456789ABCDEF';
+    const letters = '0123456789ABCDEF';
     var color = '#';
     for (var i = 0; i < 6; i++) {
         color += letters[Math.floor(Math.random() * 16)];

@@ -24,6 +24,10 @@ function getMeme() {
     return gMeme
 }
 
+function getLine(){
+    return gMeme.lines[gMeme.selectedLineIdx]
+}
+
 function changeFont(font) {
     gMeme.lines[gMeme.selectedLineIdx].font = font
 }
@@ -36,7 +40,6 @@ function changeTextAlign(align) {
 }
 
 function bigFont() {
-    console.log(gMeme.selectedLineIdx);
     gMeme.lines[gMeme.selectedLineIdx].size += 5
 }
 function smallFont() {
@@ -87,18 +90,18 @@ function save(canvas) {
         url: canvas.toDataURL('image/jpeg'),
         meme: gMeme,
     }
-    gSavedMemes = loadFromStorage(STORAGE_KEY)
-    if (!gSavedMemes) {
-        var gSavedMemes = []
-        gSavedMemes.unshift(savedMeme)
+    savedMemes = loadFromStorage(STORAGE_KEY)
+    if (!savedMemes || savedMeme.length === 0) {
+        var savedMemes = []
+        savedMemes.unshift(savedMeme)
     }
     else {
-        gSavedMemes.unshift(savedMeme)
+        savedMemes.unshift(savedMeme)
     }
-    saveToStorage(STORAGE_KEY, gSavedMemes)
+    saveToStorage(STORAGE_KEY, savedMemes)
 }
 
-function spliceMeme(memes) {
+function resaveMemes(memes) {
     saveToStorage(STORAGE_KEY, memes)
 }
 
@@ -133,8 +136,8 @@ function setLine(idx){
     gMeme.selectedLineIdx = idx
     return gMeme.lines[gMeme.selectedLineIdx]
 }
-function setLineIsDrug(bool){
-    gMeme.lines[gMeme.selectedLineIdx].isDrug = bool
+function setLineIsDrag(bool){
+    gMeme.lines[gMeme.selectedLineIdx].isDrag = bool
 }
  function setPosition(pos){
     const idx = gMeme.selectedLineIdx

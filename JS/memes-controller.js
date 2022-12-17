@@ -1,5 +1,6 @@
 'use strict'
 function renderMemes() {
+    document.querySelector(".search").style.display = 'none'
     document.body.classList.remove("open-menu")
     const memes = loadFromStorage(STORAGE_KEY)
     if (memes.length === 0) return
@@ -12,7 +13,7 @@ function onEditSaved(elImg) {
     const meme = memes.find(meme => elImg.id === meme.meme.selectedImgId)
     const memeIdx = memes.findIndex(meme => elImg.id === meme.meme.selectedImgId)
     memes.splice(memeIdx, 1)
-    spliceMeme(memes)
+    resaveMemes(memes)
     changeGEditSaveMeme()
     updateLines(meme.meme)
     onOpenMemeEditor(elImg)

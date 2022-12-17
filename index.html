@@ -32,7 +32,7 @@
 
 
     <div class="meme-editor">
-        <button class="close-modal btn" onclick="onOpenMemeEditor(this,event)">X</button>
+        <button class="close-modal btn" onclick="onCloseEditor(event)">X</button>
         <h1 class="edit-title">Meme Editor</h1>
         <div class="canvas-container">
             <canvas class="my-canvas" height="300" width="300">
@@ -71,7 +71,10 @@
                     <a href="#" class="btn" onclick="onDownloadImg(this)" download="my-meme.jpg">Download</a>
         </div>
     </div>
+
     <div class="meme-saved"> Your meme is now saved at "Memes"</div>
+    <div class="line-alert"> Too Long... add a new row </div>
+
     <script src="JS/editor-controller.js"></script>
     <script src="JS/editor-service.js"></script>
     <script src="JS/gallery-controller.js"></script>

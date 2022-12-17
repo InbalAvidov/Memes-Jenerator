@@ -1,6 +1,8 @@
 'use strict'
 function init() {
     renderGallery()
+    document.querySelector(".search").style.display = 'inline block'
+
 }
 
 function toggleMenu() {
