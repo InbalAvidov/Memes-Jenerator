@@ -6,7 +6,6 @@ var gEditSaveMeme = false
 var gRandomMeme = false
 const TOUCH_EVS = ['touchstart', 'touchmove', 'touchend']
 var gStartPos
-var gNewPos
 var gIsDrug = false
 var gRowIdx
 
@@ -116,21 +115,32 @@ function _renderCanvas() {
     memes.lines.forEach((line, idx) => drawText(line, idx, memes.selectedLineIdx))
 }
 
-function drawText(line, currIdx, selectedIdx) {
+function getLinePos(line,idx){
+    
     const txtLength = line.txt.split('').length * line.size / 2
-    if (gIsDrug && currIdx === gRowIdx) var { x, y } = gStartPos
+    if (gIsDrug && idx === gRowIdx) var { x, y } = gStartPos
     else if (line.isDrug !== undefined) {
-        var x = line.pos.x + ((txtLength / 2) - 10)
+        var x = line.pos.x + (txtLength / 2) + 10
         var y = line.pos.y + (line.size / 2)
     }
     else {
         var x = gElCanvas.width / 2
         var y
         var yDis = gElCanvas.height
-        if (currIdx === 0) y = yDis - (0.9 * yDis)
-        else if (currIdx === 1) y = yDis - (0.1 * yDis)
-        else y = yDis - ((yDis * 0.9) - (yDis * 0.1 * (currIdx - 1)))
+        if (idx === 0) y = yDis - (0.9 * yDis)
+        else if (idx === 1) y = yDis - (0.1 * yDis)
+        else y = yDis - ((yDis * 0.9) - (yDis * 0.1 * (idx - 1)))
     }
+    const pos = {
+        x,
+        y
+    }
+    return pos
+
+}
+
+function drawText(line, currIdx, selectedIdx) {
+    const pos = getLinePos(line, currIdx)
     const txt = line.txt
     gCtx.lineWidth = 2
     gCtx.strokeStyle = 'black'
@@ -138,20 +148,25 @@ function drawText(line, currIdx, selectedIdx) {
     gCtx.font = `${line.size}px '${line.font}'`
     gCtx.textAlign = `${line.align}`
     gCtx.textBaseline = 'middle'
-    gCtx.fillText(txt, x, y)
-    gCtx.strokeText(txt, x, y)
+    gCtx.fillText(txt, pos.x, pos.y)
+    gCtx.strokeText(txt, pos.x, pos.y)
 
     if (currIdx === selectedIdx && !gDone && line.txt) {
+        var txtLength = line.txt.split('').length * line.size / 2
+        const posX = pos.x - (txtLength / 2) - 10
+        const posY = pos.y - (line.size / 2)
         gCtx.strokeStyle = 'black'
-        const posX = x - (txtLength / 2) - 10
-        const posY = y - (line.size / 2)
+        if (txtLength > 250 ) {
+            document.querySelector(".meme-text").value = ''
+            newLine()
+            return
+        }
         gCtx.strokeRect(posX, posY, txtLength + 20, line.size)
         line.pos.x = posX
         line.pos.y = posY
         line.pos.xLength = txtLength + posX
         line.pos.yLength = (line.size * 2) + posY
     }
-    console.log(line);
 }
 
 function onChangeFont(font) {

@@ -16,6 +16,5 @@ function renderGallery(key) {
 
 
 function onSearch(search){
-    const key = search
-    renderGallery(key)
+    renderGallery(search)
 }
