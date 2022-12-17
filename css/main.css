@@ -202,7 +202,6 @@ img:hover{
 
 .stickers-bar {
     background-color:var(--clrpink);
-    height: 70px;
     width: 90%;
     margin: 10px auto;
 }
