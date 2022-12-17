@@ -1,10 +1,10 @@
 'use strict'
 function init() {
     renderGallery()
+    document.body.classList.remove("open-menu")
     document.querySelector(".search").style.display = 'inline block'
 
 }
-
 function toggleMenu() {
     document.body.classList.toggle("open-menu")
 }

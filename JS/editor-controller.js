@@ -20,7 +20,8 @@ function onOpenMemeEditor(elImg) {
     gCtx.drawImage(elImg, 0, 0, gElCanvas.width, gElCanvas.height)
     document.querySelector(".font-color").value = "#ffffff"
     document.querySelector(".meme-text").value = ''
-    if (!elImg.classList.contains("meme-img") && !gRandomMeme) resetLines()
+    if (gRandomMeme) _renderCanvas()
+    else if (!elImg.classList.contains("meme-img")) resetLines()
     else {
         gDone = true
         _renderCanvas()
@@ -31,6 +32,7 @@ function onOpenMemeEditor(elImg) {
 function onCloseEditor(ev) {
     ev.stopPropagation()
     if (gEditSaveMeme) onSave()
+    if (gRandomMeme) gRandomMeme = false
     document.body.classList.remove('editor-open')
 }
 
@@ -96,10 +98,9 @@ function onUp() {
 
 function onFlexMeme() {
     gRandomMeme = true
-    const imgId = createRandomMeme()
+    const imgId =  getRandomImgId()
     const elImg = document.getElementById(`${imgId}`)
     onOpenMemeEditor(elImg)
-    gRandomMeme = false
 }
 
 function onCreateLine(txt) {
@@ -121,7 +122,6 @@ function _renderCanvas() {
 }
 
 function getLinePos(line, idx) {
-
     const txtLength = line.txt.split('').length * line.size / 2
     if (idx === gRowIdx) var { x, y } = gStartPos
     else if (line.isDrag !== undefined) {
@@ -141,7 +141,6 @@ function getLinePos(line, idx) {
         y
     }
     return pos
-
 }
 
 function drawText(line, currIdx, selectedIdx) {
@@ -156,20 +155,23 @@ function drawText(line, currIdx, selectedIdx) {
     gCtx.fillText(txt, pos.x, pos.y)
     gCtx.strokeText(txt, pos.x, pos.y)
 
-    if (currIdx === selectedIdx && !gDone && line.txt) {
+    if (currIdx === selectedIdx && !gDone && line.txt || gRandomMeme) {
         var txtLength = line.txt.split('').length * line.size / 2
-        const posX = pos.x - (txtLength / 2) - 10
-        const posY = pos.y - (line.size / 2)
-        gCtx.strokeStyle = 'black'
         if (txtLength > 250) {
             gLongRow = true
         }
-        gCtx.strokeRect(posX, posY, txtLength + 20, line.size)
+        const posX = pos.x - (txtLength / 2) - 10
+        const posY = pos.y - (line.size / 2)
+        if (currIdx === selectedIdx && !gDone && line.txt){
+            gCtx.strokeStyle = 'black'
+            gCtx.strokeRect(posX, posY, txtLength + 20, line.size)
+        }
         line.pos.x = posX
         line.pos.y = posY
         line.pos.xLength = txtLength + posX
         line.pos.yLength = (line.size * 2) + posY
     }
+    console.log(line);
 }
 
 function onChangeFont(font) {

@@ -105,22 +105,27 @@ function resaveMemes(memes) {
     saveToStorage(STORAGE_KEY, memes)
 }
 
-function createRandomMeme() {
+function getRandomImgId(){
     const imgId = getRandomInt(1, gNumOfImgs + 1)
-    const numOfLines = getRandomInt(0, 2)
     gMeme.selectedImgId = imgId
+    createRandomMeme()
+    return imgId
+
+}
+
+function createRandomMeme() {
+    const numOfLines = getRandomInt(0, 2)
     for (var i = 0; i <= numOfLines; i++) {
         const line = {
             txt: getRandomText(),
             size: 20,
             align: 'center',
             color: getRandomColor(),
-            font: 'impact'
-
+            font: 'impact',
+            pos: {}
         }
         gMeme.lines[i] = line
     }
-    return imgId
 }
 
 function isLineClicked(pos) {
