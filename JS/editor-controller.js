@@ -269,3 +269,26 @@ function onAddSticker(val) {
     newLine(sticker)
     _renderCanvas()
 }
+
+function onUpload(){
+    const imgDataUrl = gElCanvas.toDataURL('image/jpeg') // Gets the canvas content as an image format
+    function onSuccess(uploadedImgUrl) {
+        const encodedUploadedImgUrl = encodeURIComponent(uploadedImgUrl)
+        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodedUploadedImgUrl}&t=${encodedUploadedImgUrl}`)
+    }
+    doUploadImg(imgDataUrl, onSuccess)
+}
+
+function doUploadImg(imgDataUrl, onSuccess) {
+    // Pack the image for delivery
+    const formData = new FormData()
+    formData.append('img', imgDataUrl)
+    console.log('formData:', formData)
+    // Send a post req with the image to the server
+    fetch('//ca-upload.com/here/upload.php', { method: 'POST', body: formData })
+        .then(res => res.text())
+        .then(url => {
+            console.log('url:', url)
+            onSuccess(url)
+        })
+}

@@ -23,14 +23,6 @@ html {
     font-family: titen;
     src: url(../fonts/TitanOne-Regular.ttf);
 }
-/* @font-face {
-    font-family: lucky;
-    src: url(../fonts/LuckiestGuy-Regular.ttf);
-} */
-/* @font-face {
-    font-family: impact ;
-    src: url(../fonts/impact.ttf);
-} */
 * {
     box-sizing: border-box;
     font-family: kenia ,impact;
@@ -52,6 +44,11 @@ html {
     font-weight: 600;
     min-width: 40px;
     font-size: 1.2rem;
+}
+
+.download{
+    border: 2px solid black;
+    padding: 2px;
 }
 
 
