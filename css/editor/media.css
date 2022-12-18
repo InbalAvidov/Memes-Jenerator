@@ -1,0 +1,50 @@
+@media (max-width:740px) {
+    .main-screen.editor-open {
+        height: 100%;
+    }
+
+    .editor-features {
+        font-size: 1rem;
+        margin-top: 0;
+        text-align: center;
+    }
+
+    .main-screen.editor-open .imgs-container {
+        display: none;
+        background-color: var(--clrblue);
+    }
+    .btn {
+        height: fit-content;
+        font-size: 1.2rem;
+    }
+    .sticker-btn{
+        font-size: 2rem;
+    }
+}
+
+@media (min-width:740px) {
+    .main-screen.editor-open .meme-editor {
+        position: fixed;
+        height: 100vh;
+        flex-wrap: wrap;
+    }
+    .main-screen.editor-open{
+        overflow: hidden;
+    }
+    .btn {
+        height: fit-content;
+        font-size: 1rem;
+    }
+   
+    .sticker-btn{
+        font-size: 1.5rem;
+    }
+
+}
+
+@media (min-width:980px) {
+
+    .search-words {
+        font-size: 0.7rem;
+    }
+}

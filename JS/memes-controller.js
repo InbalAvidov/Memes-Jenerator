@@ -19,3 +19,10 @@ function onEditSaved(elImg) {
     onOpenMemeEditor(elImg)
 }
 
+function DeleteSaveMeme(id){
+    const memes = loadFromStorage(STORAGE_KEY)
+    const memeIdx = memes.findIndex(meme => id === meme.meme.selectedImgId)
+    memes.splice(memeIdx, 1)
+    renderMemes()
+}
+

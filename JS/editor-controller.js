@@ -7,10 +7,10 @@ var gRandomMeme = false
 const TOUCH_EVS = ['touchstart', 'touchmove', 'touchend']
 var gStartPos
 var gRowIdx
-var gLongRow = false
 
 
 function onOpenMemeEditor(elImg) {
+    window.scrollTo({top:0})
     updateSelectedImgId(elImg.id)
     document.body.classList.add('editor-open')
     gElCanvas = document.querySelector(".my-canvas")
@@ -29,11 +29,11 @@ function onOpenMemeEditor(elImg) {
     }
 }
 
-function onCloseEditor(ev) {
-    ev.stopPropagation()
+function onCloseEditor() {
     if (gEditSaveMeme) onSave()
     if (gRandomMeme) gRandomMeme = false
     document.body.classList.remove('editor-open')
+    window.scrollTo({top:0})
 }
 
 
@@ -104,14 +104,9 @@ function onFlexMeme() {
 }
 
 function onCreateLine(txt) {
-    if (gLongRow) {
-        document.querySelector(".line-alert").classList.add("open-alert")
-        return
-    }
-    else {
         changeMemeText(txt)
         _renderCanvas()
-    }
+    
 }
 
 function _renderCanvas() {
@@ -157,9 +152,6 @@ function drawText(line, currIdx, selectedIdx) {
 
     if (currIdx === selectedIdx && !gDone && line.txt || gRandomMeme) {
         var txtLength = line.txt.split('').length * line.size / 2
-        if (txtLength > 250) {
-            gLongRow = true
-        }
         const posX = pos.x - (txtLength / 2) - 10
         const posY = pos.y - (line.size / 2)
         if (currIdx === selectedIdx && !gDone && line.txt){
@@ -171,7 +163,6 @@ function drawText(line, currIdx, selectedIdx) {
         line.pos.xLength = txtLength + posX
         line.pos.yLength = (line.size * 2) + posY
     }
-    console.log(line);
 }
 
 function onChangeFont(font) {
@@ -199,11 +190,9 @@ function clearCanvas() {
 }
 
 function onNewLine() {
-    document.querySelector(".line-alert").classList.remove("open-alert")
     document.querySelector(".meme-text").value = ''
     _renderCanvas()
     newLine()
-    gLongRow = false
 }
 
 function onBigFont() {
@@ -225,6 +214,7 @@ function onDone() {
 }
 
 function onSave() {
+    onDone()
     save(gElCanvas)
     if (gEditSaveMeme) {
         renderMemes()
@@ -280,15 +270,22 @@ function onUpload(){
 }
 
 function doUploadImg(imgDataUrl, onSuccess) {
-    // Pack the image for delivery
     const formData = new FormData()
     formData.append('img', imgDataUrl)
     console.log('formData:', formData)
-    // Send a post req with the image to the server
     fetch('//ca-upload.com/here/upload.php', { method: 'POST', body: formData })
         .then(res => res.text())
         .then(url => {
             console.log('url:', url)
             onSuccess(url)
         })
+}
+
+function onDeleteMeme(){
+    if (gEditSaveMeme)
+    {
+        const imgId = getImageId()
+        DeleteSaveMeme(imgId)
+    }
+    document.body.classList.remove('editor-open')
 }

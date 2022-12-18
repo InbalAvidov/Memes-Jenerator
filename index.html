@@ -19,20 +19,28 @@
         <button class="menu-toggle-btn btn" onclick="toggleMenu()">☰</button>
     </header>
 
-
     <section class="flex">
         <button class="btn flexiable" onclick="onFlexMeme()">I'm flexiable</button>
         <label class="search">Search
-            <input type="text" placeholder="search here" class="search-line" oninput="onSearch(this.value)">
+            <input type="search" list="search keyword" placeholder="search here" class="search-line"
+                oninput="onSearch(this.value)">
+            <datalist id="search keyword">
+                <option value="politics">
+                <option value="funny">
+                <option value="people">
+                <option value="animals">
+                <option value="cute">
+                <option value="kids">
+            </datalist>
         </label>
-        <!-- <div class="search-words flex">Funny , Animal , Kids</div> -->
+
     </section>
-    
+
     <div class="imgs-container grid"></div>
 
 
     <div class="meme-editor">
-        <button class="close-modal btn" onclick="onCloseEditor(event)">X</button>
+        <button class="close-modal btn" onclick="onCloseEditor()">X</button>
         <h1 class="edit-title">Meme Editor</h1>
         <div class="canvas-container">
             <canvas class="my-canvas" height="300" width="300">
@@ -51,13 +59,16 @@
             <button class="btn" onclick="onSwitchLine()">⇅</button>
             <button class="btn" onclick="onNewLine()">+</button>
             <button onclick="onDeleteLine()" class="btn">🗑️</button>
-            <button onclick="clearCanvas()" class="btn">clear</button>
             <br>
             <button class="btn" onclick="onBigFont()">A+</button>
             <button class="btn" onclick="onSmallFont()">A-</button>
             <button onclick="onChangeAlign(this)" class="btn" id="right">=></button>
             <button onclick="onChangeAlign(this)" class="btn" id="center">=</button>
-            <button onclick="onChangeAlign(this)" class="btn" id="left"><= </button>
+            <button onclick="onChangeAlign(this)" class="btn" id="left">
+                <= </button>
+                    <br>
+                    <button onclick="clearCanvas()" class="btn">clear</button>
+                    <button class="btn" onclick="onDeleteMeme()">Delete Meme</button>
                     <br>
                     <button class="btn" onclick="onDone()">Done</button>
                     <button class="btn" onclick="onSave()">Save</button>
@@ -70,13 +81,11 @@
                         <button class="sticker-btn" onclick="onAddSticker(this.id)" id="2">🤔</button>
                         <button class="sticker-btn" onclick="onAddSticker(this.id)" id="3">😫</button>
                         <button class="sticker-btn" onclick="onAddSticker(this.id)" id="4">🤯</button>
-                        </section>
+                    </section>
         </div>
     </div>
 
     <div class="meme-saved"> Your meme is now saved at "Memes"</div>
-    <div class="line-alert"> Too Long... add a new row </div>
-
     <script src="JS/editor-controller.js"></script>
     <script src="JS/editor-service.js"></script>
     <script src="JS/gallery-controller.js"></script>
@@ -87,4 +96,3 @@
 </body>
 
 </html>
-
